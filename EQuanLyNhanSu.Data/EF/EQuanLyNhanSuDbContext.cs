@@ -1,5 +1,6 @@
 ﻿using EQuanLyNhanSu.Data.Configurations;
 using EQuanLyNhanSu.Data.Entities;
+using EQuanLyNhanSu.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
