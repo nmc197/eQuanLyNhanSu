@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EQuanLyNhanSu.Data\EQuanLyNhanSu.Data.csproj" />
+    <ProjectReference Include="..\EQuanLyNhanSu.Untilities\EQuanLyNhanSu.Untilities.csproj" />
+    <ProjectReference Include="..\EQuanLyNhanSu.ViewModel\EQuanLyNhanSu.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Catalog\Dtos\" />
+  </ItemGroup>
 
 </Project>
