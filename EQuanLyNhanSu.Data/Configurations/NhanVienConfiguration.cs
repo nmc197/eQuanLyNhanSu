@@ -15,6 +15,7 @@ namespace EQuanLyNhanSu.Data.Configurations
             builder.HasKey(x => x.MaNV);
             builder.Property(x => x.MaNV).UseIdentityColumn();
             builder.HasOne(x => x.PhongBan).WithMany(x => x.NhanViens).HasForeignKey(x => x.MaPb);
+
         }
     }
 }

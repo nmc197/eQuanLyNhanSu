@@ -19,6 +19,7 @@ namespace EQuanLyNhanSu.Data.EF
             modelBuilder.ApplyConfiguration(new LuongConfiguration());
             modelBuilder.ApplyConfiguration(new HopDongConfiguration());
             modelBuilder.ApplyConfiguration(new InfoConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             //base.OnModelCreating(modelBuilder);
         }
         public DbSet<NhanVien> NhanViens { get; set; }
@@ -26,5 +27,6 @@ namespace EQuanLyNhanSu.Data.EF
         public DbSet<Luong> Luongs { get; set; }
         public DbSet<HopDong> HopDongs { get; set; }
         public DbSet<Info> Infos { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
