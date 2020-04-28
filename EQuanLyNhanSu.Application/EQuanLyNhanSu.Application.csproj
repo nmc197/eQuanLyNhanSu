@@ -11,6 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.5.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EQuanLyNhanSu.Data\EQuanLyNhanSu.Data.csproj" />
     <ProjectReference Include="..\EQuanLyNhanSu.Untilities\EQuanLyNhanSu.Untilities.csproj" />
     <ProjectReference Include="..\EQuanLyNhanSu.ViewModel\EQuanLyNhanSu.ViewModel.csproj" />

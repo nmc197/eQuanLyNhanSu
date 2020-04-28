@@ -12,9 +12,8 @@ namespace EQuanLyNhanSu.Data.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(x => x.id);
-            builder.Property(x => x.id).UseIdentityColumn();
-            builder.HasOne(x => x.NhanVien).WithMany(x => x.Users).HasForeignKey(x => x.MaNV);
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(200);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(200);
         }
     }
 }

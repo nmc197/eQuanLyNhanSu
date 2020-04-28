@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using EQuanLyNhanSu.Application.Catalog.Employee;
 using EQuanLyNhanSu.Application.Catalog.Employee.Service;
+using EQuanLyNhanSu.Application.Catalog.System;
 using EQuanLyNhanSu.Data.EF;
+using EQuanLyNhanSu.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,8 +33,14 @@ namespace EQuanLyNhanSu.BackendApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
+            services.AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<EQuanLyNhanSuDbContext>()
+            .AddDefaultTokenProviders();
             services.AddTransient<IPublicEmployeeService, PublicEmployeeService>();
             services.AddTransient<IManagedEmployeeService, ManagedEmployeeService>();
+            services.AddTransient<UserManager<User>, UserManager<User>>();
+            services.AddTransient<SignInManager<User>, SignInManager<User>>();
+            services.AddTransient<IUserService, UserService>();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger QuanLyNhanSu", Version = "v1" });
                 });
@@ -64,7 +73,7 @@ namespace EQuanLyNhanSu.BackendApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger QuanLyNhanSu V1");
                 }
             );
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
