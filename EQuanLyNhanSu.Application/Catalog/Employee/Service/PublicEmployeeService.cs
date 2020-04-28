@@ -46,17 +46,15 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
             return data;
         }
 
-        public async Task<List<EmployeeViewModel>> GetAllByPhongBanId(GetPublicEmployeePagingRequest request)
+        public async Task<List<EmployeeViewModel>> GetAllByNhanVienId(int id)
         {
             var query = from e in _context.NhanViens
                         join i in _context.Infos on e.MaNV equals i.MaNV
                         join pb in _context.PhongBans on e.MaPb equals pb.MaPb
                         select new { e, i, pb };
-            if (!string.IsNullOrEmpty(request.KeyWord))
-                query = query.Where(x => x.pb.TenPhongBan.Contains(request.KeyWord));
-            if(request.MaPb.Count > 0)
+            if(id != 0)
             {
-                query = query.Where(e => request.MaPb.Contains(e.pb.MaPb));
+                query = query.Where(x => x.e.MaNV == id);
             }
             var data = await query.Select(x => new EmployeeViewModel()
             {
@@ -78,5 +76,32 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
             }).ToListAsync();
             return data;
         }
+
+        public async Task<List<EmployeeViewModel>> GetAllEByMaPb(int ibPb)
+        {
+            var query = from pb in _context.PhongBans
+                        join e in _context.NhanViens on pb.MaPb equals e.MaPb
+                        select new { e, pb };
+            if(ibPb != 0)
+            {
+                query = query.Where(x => x.pb.MaPb == ibPb);
+            }
+            var data = await query.Select(x => new EmployeeViewModel()
+            {
+                MaPb = x.pb.MaPb,
+                TenPhongBan = x.pb.TenPhongBan,
+                SDT = x.pb.SDT,
+                MaNV = x.e.MaNV,
+                TenNv = x.e.TenNv,
+                GioiTinh = x.e.GioiTinh,
+                ChucVu = x.e.ChucVu,
+                CMND = x.e.CMND,
+                NgaySinh = x.e.NgaySinh
+
+            }).ToListAsync();
+            return data;
+        }
+
+       
     }
 }

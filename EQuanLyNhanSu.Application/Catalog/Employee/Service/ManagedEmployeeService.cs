@@ -78,16 +78,14 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         public async Task<EmployeeViewModel> GetById(int MaNV)
         {
             var nhanvien = await _context.NhanViens.FindAsync(MaNV);
-            var info = await _context.Infos.FirstOrDefaultAsync(x => x.iMaNV == MaNV);
+            var info = await _context.Infos.FirstOrDefaultAsync(x => x.MaNV == MaNV);
             var employeeViewModel = new EmployeeViewModel()
             {
                 MaNV = nhanvien.MaNV,
                 GioiTinh = nhanvien.GioiTinh,
                 ChucVu = nhanvien.ChucVu,
-                MaPb = nhanvien.MaPb,
                 CMND = nhanvien.CMND,
                 NgaySinh = nhanvien.NgaySinh,
-      
             };
             return employeeViewModel;
         }

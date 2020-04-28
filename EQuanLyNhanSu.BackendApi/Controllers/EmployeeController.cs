@@ -27,11 +27,19 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
             var nhanvien = await _publicEmployeeService.GetAll();
             return Ok(nhanvien);
         }
-        //get by mapb
-        [HttpGet("public-paging")]
-        public async Task<IActionResult> Get([FromQuery]GetPublicEmployeePagingRequest request)
+    
+        // get all nhan vien by ma phong ban
+        [HttpGet("idPb")]
+        public async Task<IActionResult> GetAllEByMaPb([FromQuery]int idPb)
         {
-            var nhanvien = await _publicEmployeeService.GetAllByPhongBanId(request);
+            var phongban = await _publicEmployeeService.GetAllEByMaPb(idPb);
+            return Ok(phongban);
+        }
+        //get by MaNV
+        [HttpGet("id")]
+        public async Task<IActionResult> GetAllByNhanVienId([FromQuery]int id)
+        {
+            var nhanvien = await _publicEmployeeService.GetAllByNhanVienId(id);
             return Ok(nhanvien);
         }
         //getbyid
@@ -63,8 +71,8 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
         [HttpDelete("MaNV")]
         public async Task<IActionResult> Delete(int MaNV)
         {
-            var affected = await _manageEmployeeService.Delete(MaNV);
-            if (affected == 0)
+            var delete = await _manageEmployeeService.Delete(MaNV);
+            if (delete == 0)
                 return BadRequest();
             return Ok();
         }
