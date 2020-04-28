@@ -13,6 +13,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee
         Task<int> Update(EmployeeUpdateRequest request);
         Task<int> Delete(int MaNV);
 
+        Task<EmployeeViewModel> GetById(int MaNv);
         Task<List<EmployeeViewModel>> GetAll();
         Task<PagedResult<EmployeeViewModel>> GetAllPaging(GetPublicEmployeePagingRequest request);
     }

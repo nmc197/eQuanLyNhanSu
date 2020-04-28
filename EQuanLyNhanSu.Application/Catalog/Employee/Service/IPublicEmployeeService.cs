@@ -9,7 +9,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee
 {
     public interface IPublicEmployeeService
     {
-        Task<PagedResult<EmployeeViewModel>> GetAllByPhongBanId(GetPublicEmployeePagingRequest request);
+        Task<List<EmployeeViewModel>> GetAllByPhongBanId(GetPublicEmployeePagingRequest request);
         Task<List<EmployeeViewModel>> GetAll();
     }
 

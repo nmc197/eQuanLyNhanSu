@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EQuanLyNhanSu.Data\EQuanLyNhanSu.Data.csproj" />
-    <ProjectReference Include="..\EQuanLyNhanSu.Untilities\EQuanLyNhanSu.Untilities.csproj" />
-    <ProjectReference Include="..\EQuanLyNhanSu.ViewModel\EQuanLyNhanSu.ViewModel.csproj" />
+    <Compile Remove="Catalog\Dtos\**" />
+    <EmbeddedResource Remove="Catalog\Dtos\**" />
+    <None Remove="Catalog\Dtos\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Catalog\Dtos\" />
+    <ProjectReference Include="..\EQuanLyNhanSu.Data\EQuanLyNhanSu.Data.csproj" />
+    <ProjectReference Include="..\EQuanLyNhanSu.Untilities\EQuanLyNhanSu.Untilities.csproj" />
+    <ProjectReference Include="..\EQuanLyNhanSu.ViewModel\EQuanLyNhanSu.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

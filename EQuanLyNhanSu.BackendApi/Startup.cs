@@ -31,6 +31,7 @@ namespace EQuanLyNhanSu.BackendApi
         {
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
             services.AddTransient<IPublicEmployeeService, PublicEmployeeService>();
+            services.AddTransient<IManagedEmployeeService, ManagedEmployeeService>();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger QuanLyNhanSu", Version = "v1" });
                 });
