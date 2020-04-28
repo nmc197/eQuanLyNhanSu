@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace EQuanLyNhanSu.BackendApi
 {
@@ -30,6 +31,9 @@ namespace EQuanLyNhanSu.BackendApi
         {
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
             services.AddTransient<IPublicEmployeeService, PublicEmployeeService>();
+            services.AddSwaggerGen(c=> {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger QuanLyNhanSu", Version = "v1" });
+                });
             services.AddControllersWithViews();
         }
 
@@ -52,6 +56,13 @@ namespace EQuanLyNhanSu.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c=> {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger QuanLyNhanSu V1");
+                }
+            );
 
             app.UseEndpoints(endpoints =>
             {
