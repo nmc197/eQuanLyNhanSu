@@ -9,7 +9,7 @@ using System.Text;
 
 namespace EQuanLyNhanSu.Data.EF
 {
-    public class EQuanLyNhanSuDbContext : IdentityDbContext<AppUser,AppRole, Guid>
+    public class EQuanLyNhanSuDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public EQuanLyNhanSuDbContext(DbContextOptions options) : base(options)
         {

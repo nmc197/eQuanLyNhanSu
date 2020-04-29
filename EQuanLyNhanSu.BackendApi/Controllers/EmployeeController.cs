@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EQuanLyNhanSu.Application.Catalog.Employee;
 using EQuanLyNhanSu.ViewModel.Catalog.Employee;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private IPublicEmployeeService _publicEmployeeService;
