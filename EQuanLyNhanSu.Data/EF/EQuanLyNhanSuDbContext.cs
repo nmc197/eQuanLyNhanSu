@@ -9,7 +9,7 @@ using System.Text;
 
 namespace EQuanLyNhanSu.Data.EF
 {
-    public class EQuanLyNhanSuDbContext : IdentityDbContext<User, Role, Guid>
+    public class EQuanLyNhanSuDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public EQuanLyNhanSuDbContext(DbContextOptions options) : base(options)
         {
@@ -21,8 +21,9 @@ namespace EQuanLyNhanSu.Data.EF
             modelBuilder.ApplyConfiguration(new LuongConfiguration());
             modelBuilder.ApplyConfiguration(new HopDongConfiguration());
             modelBuilder.ApplyConfiguration(new InfoConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new InfoConfiguration());
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);

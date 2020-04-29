@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EQuanLyNhanSu.Data.Entities
 {
-    public class Role
+    public class AppRole : IdentityRole<Guid>
     {
         public string Description { get; set; }
     }
