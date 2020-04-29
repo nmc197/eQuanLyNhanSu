@@ -6,5 +6,6 @@ namespace EQuanLyNhanSu.ViewModel.Catalog.Employee
 {
     public class GetPublicEmployeePagingRequest
     {
+        public string KeyWord { get; set; }
     }
 }

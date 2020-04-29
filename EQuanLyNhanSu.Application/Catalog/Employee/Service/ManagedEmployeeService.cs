@@ -26,11 +26,13 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
                 TenNv = request.TenNv,
                 GioiTinh = request.GioiTinh,
                 ChucVu = request.ChucVu,
+                MaPb = request.MaPb,
                 CMND = request.CMND,
                 NgaySinh=request.NgaySinh
             };
             _context.NhanViens.Add(nhanvien);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return nhanvien.MaNV;
         }
 
         public async Task<int> Delete(int MaNV)
@@ -71,6 +73,21 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         public Task<PagedResult<EmployeeViewModel>> GetAllPaging(GetPublicEmployeePagingRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<EmployeeViewModel> GetById(int MaNV)
+        {
+            var nhanvien = await _context.NhanViens.FindAsync(MaNV);
+            var info = await _context.Infos.FirstOrDefaultAsync(x => x.MaNV == MaNV);
+            var employeeViewModel = new EmployeeViewModel()
+            {
+                MaNV = nhanvien.MaNV,
+                GioiTinh = nhanvien.GioiTinh,
+                ChucVu = nhanvien.ChucVu,
+                CMND = nhanvien.CMND,
+                NgaySinh = nhanvien.NgaySinh,
+            };
+            return employeeViewModel;
         }
 
         public async Task<int> Update(EmployeeUpdateRequest request)
