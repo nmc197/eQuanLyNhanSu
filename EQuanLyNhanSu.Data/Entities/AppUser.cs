@@ -5,11 +5,10 @@ using System.Text;
 
 namespace EQuanLyNhanSu.Data.Entities
 {
-    public class User: IdentityUser<Guid>
+    public class AppUser: IdentityUser<Guid>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int MaNV { get; set; }
-        public NhanVien NhanVien { get; set; }
+        public DateTime Dob { get; set; }
     }
 }

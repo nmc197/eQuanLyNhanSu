@@ -17,6 +17,5 @@ namespace EQuanLyNhanSu.Data.Entities
         public List<Luong> Luongs { get; set; }
         public HopDong HopDong { get; set; }
         public Info Info { get; set; }
-        public List<User> Users { get; set; }
     }
 }

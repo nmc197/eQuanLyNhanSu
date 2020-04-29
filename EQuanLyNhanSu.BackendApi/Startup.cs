@@ -33,13 +33,16 @@ namespace EQuanLyNhanSu.BackendApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
-            services.AddIdentity<User, Role>()
+
+            services.AddIdentity<AppUser, AppRole>()
             .AddEntityFrameworkStores<EQuanLyNhanSuDbContext>()
             .AddDefaultTokenProviders();
+
             services.AddTransient<IPublicEmployeeService, PublicEmployeeService>();
             services.AddTransient<IManagedEmployeeService, ManagedEmployeeService>();
-            services.AddTransient<UserManager<User>, UserManager<User>>();
-            services.AddTransient<SignInManager<User>, SignInManager<User>>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger QuanLyNhanSu", Version = "v1" });
