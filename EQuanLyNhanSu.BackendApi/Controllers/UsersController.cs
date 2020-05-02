@@ -19,9 +19,8 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromForm]LoginRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
+            if (!ModelState.IsValid) 
+                return BadRequest(ModelState); // validator
             var resultToken = await _userService.Authencate(request);
             if (string.IsNullOrEmpty(resultToken))
             {

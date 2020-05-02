@@ -7,6 +7,10 @@ using EQuanLyNhanSu.Application.Catalog.Employee.Service;
 using EQuanLyNhanSu.Application.Catalog.System;
 using EQuanLyNhanSu.Data.EF;
 using EQuanLyNhanSu.Data.Entities;
+using EQuanLyNhanSu.ViewModel.Catalog.System;
+using EQuanLyNhanSu.ViewModel.Catalog.System.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,8 +50,10 @@ namespace EQuanLyNhanSu.BackendApi
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
-            
-            services.AddControllers();
+            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger QuanLyNhanSu", Version = "v1" });
