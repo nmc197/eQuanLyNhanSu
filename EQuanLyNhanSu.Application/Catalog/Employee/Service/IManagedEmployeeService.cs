@@ -15,6 +15,8 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee
 
         Task<EmployeeViewModel> GetById(int MaNV);
         Task<List<EmployeeViewModel>> GetAll();
-        Task<PagedResult<EmployeeViewModel>> GetAllPaging(GetPublicEmployeePagingRequest request);
+        Task<List<EmployeeViewModel>> GetAllByNhanVienId(int id);
+
+        Task<List<EmployeeViewModel>> GetAllEByMaPb(int idPb);
     }
 }

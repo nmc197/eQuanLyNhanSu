@@ -13,12 +13,13 @@ using System.Threading.Tasks;
 namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
 {
     public class ManagedEmployeeService : IManagedEmployeeService
-    { 
+    {
         private readonly EQuanLyNhanSuDbContext _context;
-        public  ManagedEmployeeService(EQuanLyNhanSuDbContext context)
+        public ManagedEmployeeService(EQuanLyNhanSuDbContext context)
         {
             _context = context;
         }
+
         public async Task<int> Create(EmployeeCreateRequest request)
         {
             var nhanvien = new NhanVien()
@@ -28,7 +29,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
                 ChucVu = request.ChucVu,
                 MaPb = request.MaPb,
                 CMND = request.CMND,
-                NgaySinh=request.NgaySinh
+                NgaySinh = request.NgaySinh
             };
             _context.NhanViens.Add(nhanvien);
             await _context.SaveChangesAsync();
@@ -46,35 +47,83 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         public async Task<List<EmployeeViewModel>> GetAll()
         {
             var query = from e in _context.NhanViens
-                        join pb in _context.PhongBans on e.MaNV equals pb.MaPb
-                        join i in _context.Infos on e.MaNV equals i.iMaNV
-                        select new { e ,pb, i};
+                        join i in _context.Infos on e.MaNV equals i.MaNV
+                        join pb in _context.PhongBans on e.MaPb equals pb.MaPb
+                        select new { e, i, pb };
             var data = await query.Select(x => new EmployeeViewModel()
             {
                 MaNV = x.e.MaNV,
+                TenNv = x.e.TenNv,
                 GioiTinh = x.e.GioiTinh,
                 ChucVu = x.e.ChucVu,
                 MaPb = x.pb.MaPb,
                 CMND = x.e.CMND,
-                NgaySinh=x.e.NgaySinh,
-                NoiSinh=x.i.NoiSinh,
-                NguyenQuan=x.i.NguyenQuan,
+                NgaySinh = x.e.NgaySinh,
+                NoiSinh = x.i.NoiSinh,
+                NguyenQuan = x.i.NguyenQuan,
                 HKTT = x.i.HKTT,
                 SDT = x.i.SDT,
                 TonGiao = x.i.TonGiao,
                 QuocTich = x.i.QuocTich,
                 HocVan = x.i.HocVan,
                 TrinhDoNgoaiNgu = x.i.TrinhDoNgoaiNgu
+            }).ToListAsync();
+            return data;
+        }
+        public async Task<List<EmployeeViewModel>> GetAllByNhanVienId(int id)
+        {
+            var query = from e in _context.NhanViens
+                        join i in _context.Infos on e.MaNV equals i.MaNV
+                        join pb in _context.PhongBans on e.MaPb equals pb.MaPb
+                        select new { e, i, pb };
+            if (id != 0)
+            {
+                query = query.Where(x => x.e.MaNV == id);
+            }
+            var data = await query.Select(x => new EmployeeViewModel()
+            {
+                MaNV = x.e.MaNV,
+                TenNv = x.e.TenNv,
+                GioiTinh = x.e.GioiTinh,
+                ChucVu = x.e.ChucVu,
+                MaPb = x.pb.MaPb,
+                CMND = x.e.CMND,
+                NgaySinh = x.e.NgaySinh,
+                NoiSinh = x.i.NoiSinh,
+                NguyenQuan = x.i.NguyenQuan,
+                HKTT = x.i.HKTT,
+                SDT = x.i.SDT,
+                TonGiao = x.i.TonGiao,
+                QuocTich = x.i.QuocTich,
+                HocVan = x.i.HocVan,
+                TrinhDoNgoaiNgu = x.i.TrinhDoNgoaiNgu
+            }).ToListAsync();
+            return data;
+        }
+        public async Task<List<EmployeeViewModel>> GetAllEByMaPb(int ibPb)
+        {
+            var query = from pb in _context.PhongBans
+                        join e in _context.NhanViens on pb.MaPb equals e.MaPb
+                        select new { e, pb };
+            if (ibPb != 0)
+            {
+                query = query.Where(x => x.pb.MaPb == ibPb);
+            }
+            var data = await query.Select(x => new EmployeeViewModel()
+            {
+                MaPb = x.pb.MaPb,
+                TenPhongBan = x.pb.TenPhongBan,
+                SDT = x.pb.SDT,
+                MaNV = x.e.MaNV,
+                TenNv = x.e.TenNv,
+                GioiTinh = x.e.GioiTinh,
+                ChucVu = x.e.ChucVu,
+                CMND = x.e.CMND,
+                NgaySinh = x.e.NgaySinh
 
             }).ToListAsync();
             return data;
         }
-
-        public Task<PagedResult<EmployeeViewModel>> GetAllPaging(GetPublicEmployeePagingRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<EmployeeViewModel> GetById(int MaNV)
         {
             var nhanvien = await _context.NhanViens.FindAsync(MaNV);
@@ -93,7 +142,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         public async Task<int> Update(EmployeeUpdateRequest request)
         {
             var nhanvien = await _context.NhanViens.FindAsync(request.MaNV);
-            if(nhanvien == null) throw new EQuanLyNhanSuException($"Can not update user: {request.MaNV}");
+            if (nhanvien == null) throw new EQuanLyNhanSuException($"Can not update user: {request.MaNV}");
             nhanvien.TenNv = request.TenNv;
             nhanvien.GioiTinh = request.GioiTinh;
             nhanvien.ChucVu = request.ChucVu;

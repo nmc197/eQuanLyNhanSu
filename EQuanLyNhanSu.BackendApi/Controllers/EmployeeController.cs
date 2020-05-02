@@ -15,18 +15,16 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
     [Authorize]
     public class EmployeeController : ControllerBase
     {
-        private IPublicEmployeeService _publicEmployeeService;
         private IManagedEmployeeService _manageEmployeeService;
-        public EmployeeController(IPublicEmployeeService publicEmployeeService, IManagedEmployeeService manageEmployeeService)
+        public EmployeeController(IManagedEmployeeService manageEmployeeService)
         {
-            _publicEmployeeService = publicEmployeeService;
             _manageEmployeeService = manageEmployeeService;
         }
         //get all nhanvien
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var nhanvien = await _publicEmployeeService.GetAll();
+            var nhanvien = await _manageEmployeeService.GetAll();
             return Ok(nhanvien);
         }
     
@@ -34,14 +32,14 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
         [HttpGet("idPb")]
         public async Task<IActionResult> GetAllEByMaPb([FromQuery]int idPb)
         {
-            var phongban = await _publicEmployeeService.GetAllEByMaPb(idPb);
+            var phongban = await _manageEmployeeService.GetAllEByMaPb(idPb);
             return Ok(phongban);
         }
         //get by MaNV
         [HttpGet("id")]
         public async Task<IActionResult> GetAllByNhanVienId([FromQuery]int id)
         {
-            var nhanvien = await _publicEmployeeService.GetAllByNhanVienId(id);
+            var nhanvien = await _manageEmployeeService.GetAllByNhanVienId(id);
             return Ok(nhanvien);
         }
         //getbyid

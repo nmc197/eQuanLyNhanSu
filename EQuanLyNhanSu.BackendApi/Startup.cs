@@ -38,13 +38,13 @@ namespace EQuanLyNhanSu.BackendApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
+
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
 
             services.AddIdentity<AppUser, AppRole>()
             .AddEntityFrameworkStores<EQuanLyNhanSuDbContext>()
             .AddDefaultTokenProviders();
-
-            services.AddTransient<IPublicEmployeeService, PublicEmployeeService>();
             services.AddTransient<IManagedEmployeeService, ManagedEmployeeService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

@@ -1,10 +1,15 @@
 ﻿using EQuanLyNhanSu.Data.Entities;
+using EQuanLyNhanSu.ViewModel.Catalog.Common;
 using EQuanLyNhanSu.ViewModel.Catalog.System;
+using EQuanLyNhanSu.ViewModel.Catalog.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,14 +22,14 @@ namespace EQuanLyNhanSu.Application.Catalog.System
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager,RoleManager<AppRole> roleManager, IConfiguration config)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<AppRole> roleManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signinManager;
             _roleManager = roleManager;
             _config = config;
         }
-        public async Task<string> Authencate(LoginRequest request)
+        public async Task<string> Authenticate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return null;
@@ -39,7 +44,8 @@ namespace EQuanLyNhanSu.Application.Catalog.System
             {
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.FirstName),
-                new Claim(ClaimTypes.Role, string.Join(";",roles))
+                new Claim(ClaimTypes.Role, string.Join(";",roles)),
+                new Claim(ClaimTypes.Name, request.UserName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -50,6 +56,22 @@ namespace EQuanLyNhanSu.Application.Catalog.System
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<List<UserViewModel>> GetUserRequest(GetUserRequest request)
+        {
+            var query = _userManager.Users;
+            query = query.Where(x => x.UserName == request.KeyWord);
+            var data = await query.Select(x => new UserViewModel()
+            {
+                UserName = x.UserName,
+                PhoneNumber = x.PhoneNumber,
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Dob = x.Dob
+            }).ToListAsync();
+            return data;
         }
 
         public async Task<bool> Register(RegisterRequest request)
