@@ -31,7 +31,7 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
             return Ok(resultToken);
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromForm]RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody]RegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -42,10 +42,10 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
             }
             return Ok();
         }
-        [HttpGet("paging")]
-        public async Task<IActionResult> GetUserPagingRequest([FromQuery]GetUserRequest request)
+        [HttpGet]
+        public async Task<IActionResult> GetUserPagingRequest()
         {
-            var user = await _userService.GetUserRequest(request);
+            var user = await _userService.GetUserRequest();
             return Ok(user);
         }
     }

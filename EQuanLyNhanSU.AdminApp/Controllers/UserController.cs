@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore.Design;
+using EQuanLyNhanSu.ViewModel.Catalog.Users;
 
 namespace EQuanLyNhanSU.AdminApp.Controllers
 {
@@ -25,10 +27,13 @@ namespace EQuanLyNhanSU.AdminApp.Controllers
             _userApiClient = userApiClient;
             _configuration = configuration;
         }
+        // GET User
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View();
+            var result = await _userApiClient.GetUserRequest();
+            return View(result);
         }
         [HttpGet]
         public IActionResult Login()
@@ -53,11 +58,27 @@ namespace EQuanLyNhanSU.AdminApp.Controllers
                         authProperties);
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+            var result = await _userApiClient.Register(request);
+            if (result)
+                return RedirectToAction("Index");
+
+            return View(request);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login","User");
+            return RedirectToAction("Login", "User");
         }
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {

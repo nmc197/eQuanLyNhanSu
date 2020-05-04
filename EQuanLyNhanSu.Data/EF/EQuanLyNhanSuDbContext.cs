@@ -31,6 +31,7 @@ namespace EQuanLyNhanSu.Data.EF
 
             //base.OnModelCreating(modelBuilder);
         }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<NhanVien> NhanViens { get; set; }
         public DbSet<PhongBan> PhongBans { get; set; }
         public DbSet<Luong> Luongs { get; set; }

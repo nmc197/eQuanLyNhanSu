@@ -13,6 +13,6 @@ namespace EQuanLyNhanSu.Application.Catalog.System
         Task<string> Authenticate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
 
-        Task<List<UserViewModel>> GetUserRequest(GetUserRequest request);
+        Task<List<UserViewModel>> GetUserRequest();
     }
 }

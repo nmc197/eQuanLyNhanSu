@@ -1,13 +1,13 @@
-﻿using EQuanLyNhanSu.Data.Entities;
-using EQuanLyNhanSu.ViewModel.Catalog.Common;
+﻿using EQuanLyNhanSu.Data.EF;
+using EQuanLyNhanSu.Data.Entities;
 using EQuanLyNhanSu.ViewModel.Catalog.System;
 using EQuanLyNhanSu.ViewModel.Catalog.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -21,13 +21,15 @@ namespace EQuanLyNhanSu.Application.Catalog.System
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly EQuanLyNhanSuDbContext _context;
         private readonly IConfiguration _config;
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<AppRole> roleManager, IConfiguration config)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<AppRole> roleManager,EQuanLyNhanSuDbContext context, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signinManager;
             _roleManager = roleManager;
             _config = config;
+            _context = context;
         }
         public async Task<string> Authenticate(LoginRequest request)
         {
@@ -58,18 +60,18 @@ namespace EQuanLyNhanSu.Application.Catalog.System
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<List<UserViewModel>> GetUserRequest(GetUserRequest request)
+        public async Task<List<UserViewModel>> GetUserRequest()
         {
-            var query = _userManager.Users;
-            query = query.Where(x => x.UserName == request.KeyWord);
+            var query = from us in _context.Users
+                        select new { us };
             var data = await query.Select(x => new UserViewModel()
             {
-                UserName = x.UserName,
-                PhoneNumber = x.PhoneNumber,
-                Email = x.Email,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Dob = x.Dob
+                UserName = x.us.UserName,
+                PhoneNumber = x.us.PhoneNumber,
+                Email = x.us.Email,
+                FirstName = x.us.FirstName,
+                LastName = x.us.LastName,
+                Dob = x.us.Dob
             }).ToListAsync();
             return data;
         }
