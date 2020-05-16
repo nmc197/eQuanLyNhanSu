@@ -1,0 +1,78 @@
+﻿@model EQuanLyNhanSu.ViewModel.Catalog.Employee.EmployeeUpdateRequest
+
+@{
+    ViewData["Title"] = "Update";
+}
+   
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> 
+<h1>Update</h1>
+
+<h4>EmployeeUpdateRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaNV" class="control-label"></label>
+                <input asp-for="MaNV" class="form-control" />
+                <span asp-validation-for="MaNV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenNv" class="control-label"></label>
+                <input asp-for="TenNv" class="form-control" />
+                <span asp-validation-for="TenNv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GioiTinh" class="control-label"></label>
+                <input asp-for="GioiTinh" class="form-control" />
+                <span asp-validation-for="GioiTinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChucVu" class="control-label"></label>
+                <input asp-for="ChucVu" class="form-control" />
+                <span asp-validation-for="ChucVu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaPb" class="control-label"></label>
+                <input asp-for="MaPb" class="form-control" />
+                <span asp-validation-for="MaPb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CMND" class="control-label"></label>
+                <input asp-for="CMND" class="form-control" />
+                <span asp-validation-for="CMND" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgaySinh" class="control-label"></label>
+                <input asp-for="NgaySinh" class="form-control" />
+                <span asp-validation-for="NgaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    //if ($("#MaPb").val().lenght == 0) {
+    //    Swal.fire(
+    //        'yêu cầu nhập mã phòng ban.'
+    //    )
+    //}
+
+
+    //function testSwearAlert() {
+    //    Swal.fire(
+    //        'The Internet?',
+    //        'That thing is still around?',
+    //        'question'
+    //    )
+    //}
+</script>
+

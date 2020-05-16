@@ -6,8 +6,8 @@ namespace EQuanLyNhanSu.Data.Entities
 {
     public class NhanVien
     {
-       public int MaNV { get; set; }
-       public string TenNv { get; set; }
+        public int MaNV { get; set; }
+        public string TenNv { get; set; }
         public string GioiTinh { get; set; }
         public string ChucVu { get; set; }
         public int MaPb { get; set; }

@@ -13,7 +13,7 @@ namespace EQuanLyNhanSu.Data.Configurations
         {
             builder.ToTable("PhongBans");
             builder.HasKey(x => x.MaPb);
-            builder.Property(x => x.MaPb).UseIdentityColumn();
+            builder.Property(x => x.MaPb).UseIdentityColumn().ValueGeneratedOnAdd();
         }
     }
 }

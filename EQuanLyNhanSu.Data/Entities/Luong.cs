@@ -6,7 +6,6 @@ namespace EQuanLyNhanSu.Data.Entities
 {
     public class Luong 
     {
-       
         public int  MaLuong { get; set; }
         public int LuongCoBan { get; set; }
         public int SoNgayLam { get; set; }

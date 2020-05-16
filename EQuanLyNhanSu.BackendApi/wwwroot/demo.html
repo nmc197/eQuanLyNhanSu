@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+
+</head>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content" style="background-image:url(https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?cs=srgb&dl=anh-sang-ban-ngay-b-n-tung-toe-bi-n-b-bi-n-2049422.jpg&fm=jpg)">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <div class="card-body">
+                                    <div asp-action="Login" asp-controller="User" method="post">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Tài Khoản</label>
+                                            <input class="form-control py-4" id="username" asp-for="UserName" type="text" placeholder="Nhập tài khoản" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputPassword">Mật Khẩu</label>
+                                            <input class="form-control py-4" id="password" asp-for="Password" type="password" placeholder="Nhập mật khẩu" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" id="rememberPasswordCheck" asp-for="RememberMe" type="checkbox" />
+                                                <label class="custom-control-label" for="rememberPasswordCheck">Nhớ mật khẩu</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <a class="small" href="password.html">Tìm lại mật khẩu?</a>
+                                            <button id="login" class="btn btn-primary" onclick="javascript:LoginValidate();" type="submit">Đăng nhập</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="small"><a asp-action="Register">Bạn không có tài khoản? Đăng ký!</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script language="javascript">
+        function LoginValidate() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var loginRequest = {
+                userName: username,
+                password: password,
+            }
+
+            $("#login").val("Please wait....");
+            $.ajax({
+                url: "https://localhost:5001/api/User/Authenticate",
+                data: JSON.stringify(loginRequest),
+                type: "POST",
+                async: 'true',
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data != null) {
+                        alert("Login success");
+                    } else {
+                        alert("Invalid user id and password.");
+                    }
+                    $("#username").attr({ 'value': '' });
+                    $("#password").attr({ 'value': '' });
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

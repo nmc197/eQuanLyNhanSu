@@ -1,0 +1,100 @@
+﻿@model IEnumerable<EQuanLyNhanSu.ViewModel.Catalog.Employee.EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Thêm mới nhân viên</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaNV)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenNv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GioiTinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChucVu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaPb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenPhongBan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CMND)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySinh)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaNV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenNv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GioiTinh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChucVu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaPb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CMND)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgaySinh)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Update", "Update", new { MaNV = item.MaNV }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { MaNV = item.MaNV })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function btnDelete() {
+        $.ajax({
+            headers: {
+                'Access-Control-Allow-Origin': 'https://localhost:5002/Employee/Index',
+                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+            },
+            url: 'https://localhost:5001/api/Employee/Delete/',
+            type: 'DELETE',
+            data: { MaNV = MaNV },
+            async: 'true',
+            contentType: 'application/json',
+            success: function (response) {
+                // debugger;
+                response.alert("Xóa thành công");
+            },
+            error: function (e) {
+                //console.log(e.message);
+            }
+        });
+    }
+</script>

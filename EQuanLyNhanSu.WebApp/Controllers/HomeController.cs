@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EQuanLyNhanSu.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EQuanLyNhanSu.WebApp.Controllers
 {
@@ -20,6 +21,7 @@ namespace EQuanLyNhanSu.WebApp.Controllers
 
         public IActionResult Index()
         {
+            var user = User.Identity.Name;
             return View();
         }
 
