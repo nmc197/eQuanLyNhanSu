@@ -29,7 +29,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
                 ChucVu = request.ChucVu,
                 MaPb = request.MaPb,
                 CMND = request.CMND,
-                NgaySinh = request.NgaySinh
+                NgaySinh = request.NgaySinh,
             };
             _context.NhanViens.Add(nhanvien);
             await _context.SaveChangesAsync();
@@ -37,7 +37,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         }
 
         public async Task<int> Delete(int MaNV)
-        {
+         {
             var nhanvien = await _context.NhanViens.FindAsync(MaNV);
             if (nhanvien == null) throw new EQuanLyNhanSuException($"Can not find user: {MaNV}");
             _context.NhanViens.Remove(nhanvien);
@@ -47,9 +47,8 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
         public async Task<List<EmployeeViewModel>> GetAll()
         {
             var query = from e in _context.NhanViens
-                        join i in _context.Infos on e.MaNV equals i.MaNV
                         join pb in _context.PhongBans on e.MaPb equals pb.MaPb
-                        select new { e, i, pb };
+                        select new { e, pb };
             var data = await query.Select(x => new EmployeeViewModel()
             {
                 MaNV = x.e.MaNV,
@@ -59,14 +58,7 @@ namespace EQuanLyNhanSu.Application.Catalog.Employee.Service
                 MaPb = x.pb.MaPb,
                 CMND = x.e.CMND,
                 NgaySinh = x.e.NgaySinh,
-                NoiSinh = x.i.NoiSinh,
-                NguyenQuan = x.i.NguyenQuan,
-                HKTT = x.i.HKTT,
-                SDT = x.i.SDT,
-                TonGiao = x.i.TonGiao,
-                QuocTich = x.i.QuocTich,
-                HocVan = x.i.HocVan,
-                TrinhDoNgoaiNgu = x.i.TrinhDoNgoaiNgu
+
             }).ToListAsync();
             return data;
         }

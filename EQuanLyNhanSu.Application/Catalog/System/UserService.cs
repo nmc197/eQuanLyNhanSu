@@ -1,9 +1,10 @@
-﻿using EQuanLyNhanSu.Data.EF;
+﻿    using EQuanLyNhanSu.Data.EF;
 using EQuanLyNhanSu.Data.Entities;
 using EQuanLyNhanSu.ViewModel.Catalog.System;
 using EQuanLyNhanSu.ViewModel.Catalog.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -94,5 +95,6 @@ namespace EQuanLyNhanSu.Application.Catalog.System
             }
             return false;
         }
+       
     }
 }

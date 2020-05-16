@@ -14,6 +14,14 @@ namespace EQuanLyNhanSu.Data.Configurations
             builder.ToTable("Infos");
             builder.HasKey(x => x.iMaNV);
             builder.Property(x => x.iMaNV).UseIdentityColumn();
+            builder.Property(x => x.NoiSinh).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.TonGiao).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.NguyenQuan).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.HKTT).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.HocVan).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.QuocTich).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.TrinhDoNgoaiNgu).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.SDT).HasMaxLength(100).IsRequired();
             builder.HasOne(x => x.NhanVien).WithOne(x => x.Info).HasForeignKey<Info>(x => x.MaNV);
         }
     }

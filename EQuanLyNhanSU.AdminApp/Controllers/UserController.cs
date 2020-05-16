@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore.Design;
-using EQuanLyNhanSu.ViewModel.Catalog.Users;
 
 namespace EQuanLyNhanSU.AdminApp.Controllers
 {
@@ -44,19 +40,27 @@ namespace EQuanLyNhanSU.AdminApp.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
-                return View(ModelState);
-            var token = await _userApiClient.Authenticate(request);
-            var userPrincipal = this.ValidateToken(token);
-            var authProperties = new AuthenticationProperties
+                return View();
+            var result = await _userApiClient.Authenticate(request);
+            if(result != null)
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = false
-            };
-            await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal,
-                        authProperties);
-            return RedirectToAction("Index", "Home");
+                var userPrincipal = this.ValidateToken(result);
+                var authProperties = new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    IsPersistent = false
+                };
+                await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            userPrincipal,
+                            authProperties);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+            
         }
         public IActionResult Register()
         {
@@ -97,5 +101,6 @@ namespace EQuanLyNhanSU.AdminApp.Controllers
 
             return principal;
         }
+      
     }
 }

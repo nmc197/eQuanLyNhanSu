@@ -12,11 +12,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace EQuanLyNhanSU.AdminApp
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,10 +36,10 @@ namespace EQuanLyNhanSU.AdminApp
                 options.LoginPath = "/User/Login";
                 options.AccessDeniedPath = "/User/Forbiđen";
             });
+            
             services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
             services.AddTransient<IUserApiClient, UserApiClient>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
-
+            services.AddTransient<IEmployeeApiClient, EmployeeApiClient>();
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -65,9 +67,8 @@ namespace EQuanLyNhanSU.AdminApp
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -28,6 +28,8 @@ namespace EQuanLyNhanSu.BackendApi
 {
     public class Startup
     {
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,10 +40,14 @@ namespace EQuanLyNhanSu.BackendApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddDbContext<EQuanLyNhanSuDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EQuanLyNhanSuDb")));
-
             services.AddIdentity<AppUser, AppRole>()
             .AddEntityFrameworkStores<EQuanLyNhanSuDbContext>()
             .AddDefaultTokenProviders();
@@ -52,7 +58,7 @@ namespace EQuanLyNhanSu.BackendApi
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
-
+          
             services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
             services.AddSwaggerGen(c =>
             {
@@ -128,9 +134,9 @@ namespace EQuanLyNhanSu.BackendApi
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseRouting();
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
-
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

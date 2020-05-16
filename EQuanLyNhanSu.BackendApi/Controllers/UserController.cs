@@ -1,35 +1,42 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EQuanLyNhanSu.Application.Catalog.System;
+using EQuanLyNhanSu.Data.EF;
 using EQuanLyNhanSu.ViewModel.Catalog.System;
 using EQuanLyNhanSu.ViewModel.Catalog.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EQuanLyNhanSu.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly EQuanLyNhanSuDbContext _context;
+        public UserController(IUserService userService, EQuanLyNhanSuDbContext context)
         {
             _userService = userService;
+            _context = context;
         }
         [HttpPost("authenticate")]
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody]LoginRequest request)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState); // validator
             var resultToken = await _userService.Authenticate(request);
             if (string.IsNullOrEmpty(resultToken))
             {
-                return BadRequest("Username or password is incorrect.");
+                return BadRequest(resultToken);
             }
             return Ok(resultToken);
         }
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterRequest request)
         {

@@ -1,9 +1,4 @@
-﻿@using EQuanLyNhanSu.ViewModel.Catalog.System
-@model LoginRequest
-@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,7 +8,7 @@
     <meta name="author" content="" />
     <title>Login</title>
     <link href="/css/styles.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
 </head>
 <body class="bg-primary">
     <div id="layoutAuthentication">
@@ -25,7 +20,7 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                 <div class="card-body">
-                                    <form asp-action="Login" asp-controller="User" method="post">
+                                    <div asp-action="Login" asp-controller="User" method="post">
                                         <div class="form-group">
                                             <label class="small mb-1">Tài Khoản</label>
                                             <input class="form-control py-4" id="username" asp-for="UserName" type="text" placeholder="Nhập tài khoản" />
@@ -40,15 +35,11 @@
                                                 <label class="custom-control-label" for="rememberPasswordCheck">Nhớ mật khẩu</label>
                                             </div>
                                         </div>
-                                        <div id="validate">
-
-
-                                        </div>
                                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <a class="small" href="password.html">Tìm lại mật khẩu?</a>
-                                            <button id="login" class="btn btn-primary" onclick="javascript: LoginValidate()" type="submit">Đăng nhập</button>
+                                            <button id="login" class="btn btn-primary" onclick="javascript:LoginValidate();" type="submit">Đăng nhập</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="small"><a asp-action="Register">Bạn không có tài khoản? Đăng ký!</a></div>
@@ -76,46 +67,34 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     <script language="javascript">
         function LoginValidate() {
-            if ($("#password").val().length == 0) {
-                Swal.fire(
-                    'yêu cầu nhập mật khẩu.'
-                )
-            }
-            var tx1 = $("<p></p>").text("Đăng nhập thành công");
-            var tx2 = $("<p></p>").text("Tài khoản hoặc mật khẩu sai");
             var username = $("#username").val();
             var password = $("#password").val();
             var loginRequest = {
                 userName: username,
                 password: password,
             }
+
+            $("#login").val("Please wait....");
             $.ajax({
-                headers: {
-                    'Access-Control-Allow-Origin': 'https://localhost:5002/User/Login',
-                    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-                },
                 url: "https://localhost:5001/api/User/Authenticate",
                 data: JSON.stringify(loginRequest),
                 type: "POST",
                 async: 'true',
                 contentType: 'application/json',
-                success: function (reponse) {
-                    if (reponse) {
-                        alert('Đăng nhập thành công');
-                        //Swal.fire('Đăng nhập thành công'));
+                success: function (data) {
+                    if (data != null) {
+                        alert("Login success");
+                    } else {
+                        alert("Invalid user id and password.");
                     }
-
                     $("#username").attr({ 'value': '' });
                     $("#password").attr({ 'value': '' });
                 },
                 error: function (reponse) {
-                    alert('Error400: Tài khoản hoặc mật khẩu sai')
-                    //Swal.fire(
-                    //    'Error400: Tài khoản hoặc mật khẩu sai'
-                    //)
+                    alert("error : " + reponse);
                 }
             });
         }

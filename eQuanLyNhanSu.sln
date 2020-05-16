@@ -16,12 +16,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EQuanLyNhanSu.BackendApi", "EQuanLyNhanSu.BackendApi\EQuanLyNhanSu.BackendApi.csproj", "{2D34E400-148D-43AC-A401-332A37EF3A2B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{90AF8597-A95E-4F36-893D-7DAC5F116924}"
+	ProjectSection(SolutionItems) = preProject
+		EQuanLyNhanSu.WebApp\Startup.cs = EQuanLyNhanSu.WebApp\Startup.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{6DE927C6-F205-4F3C-8C9A-88820783710A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{A87B184D-8B41-451B-AA74-C0F621EC2524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EQuanLyNhanSU.AdminApp", "EQuanLyNhanSU.AdminApp\EQuanLyNhanSU.AdminApp.csproj", "{B98B4344-4BEB-4D27-9B79-A95DF6C55877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EQuanLyNhanSU.AdminApp", "EQuanLyNhanSU.AdminApp\EQuanLyNhanSU.AdminApp.csproj", "{B98B4344-4BEB-4D27-9B79-A95DF6C55877}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

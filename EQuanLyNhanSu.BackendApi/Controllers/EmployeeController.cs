@@ -12,7 +12,6 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private IManagedEmployeeService _manageEmployeeService;
@@ -51,8 +50,8 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
                 return BadRequest("can not find nhan vien");
             return Ok(nhanvien);
         }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm]EmployeeCreateRequest request)
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody]EmployeeCreateRequest request)
         {
             var MaNV = await _manageEmployeeService.Create(request);
             if (MaNV == 0)
@@ -60,15 +59,15 @@ namespace EQuanLyNhanSu.BackendApi.Controllers
             var nhanvien = await _manageEmployeeService.GetById(MaNV);
             return CreatedAtAction(nameof(GetById), new { id = MaNV } ,nhanvien);
         }
-        [HttpPut]
-        public async Task<IActionResult> Update([FromForm]EmployeeUpdateRequest request)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody]EmployeeUpdateRequest request)
         {
             var affected = await _manageEmployeeService.Update(request);
             if (affected == 0)
                 return BadRequest();
             return Ok();
         }
-        [HttpDelete("MaNV")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int MaNV)
         {
             var delete = await _manageEmployeeService.Delete(MaNV);
