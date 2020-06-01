@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -25,12 +25,7 @@ namespace EQuanLyNhanSU.AdminApp.Controllers
         }
         // GET User
         [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            var result = await _userApiClient.GetUserRequest();
-            return View(result);
-        }
+        
         [HttpGet]
         public IActionResult Login()
         {
