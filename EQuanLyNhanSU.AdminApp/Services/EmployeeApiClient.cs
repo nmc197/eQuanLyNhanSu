@@ -1,4 +1,4 @@
-﻿using EQuanLyNhanSu.ViewModel.Catalog.Employee;
+using EQuanLyNhanSu.ViewModel.Catalog.Employee;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -13,11 +13,7 @@ namespace EQuanLyNhanSU.AdminApp.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-        public EmployeeApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
-        {
-            _httpClientFactory = httpClientFactory;
-            _configuration = configuration;
-        }
+        
 
         public async Task<bool> Create(EmployeeCreateRequest request)
         {
